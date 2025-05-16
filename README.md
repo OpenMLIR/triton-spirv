@@ -1,3 +1,31 @@
+# Triton-SPIRV
+
+A toy development branch to build an experimental SPIRV backend for [Triton](https://github.com/openai/triton). It is heavily inspired by [triton-lang/triton-cpu](https://github.com/triton-lang/triton-cpu) and [microsoft/triton-shared](https://github.com/microsoft/triton-shared).
+
+This repository clones the main Triton repository, but we intend to minimize
+divergences in the core (and ideally upstream anything that needs to change and
+isn't too SPIRV-specific). Most of the SPIRV work should be in a backend
+subdirectory (similar to how GPU vendors are supported today).
+
+# How to use it?
+
+Build it like a normal Triton, but just pass TRITON_SPIRV_BACKEND=1 to use the SPIRV backend over a GPU backend, if any.
+
+```
+TRITON_SPIRV_BACKEND=1 python3 tutorials/01-vector-add.py
+```
+
+
+## Milestone
+
+### 2025.5.17
+
+Add an empty SPIR-V backend to get ttir
+
+---
+
+# Upstream README
+
 <div align="center">
   <img src="https://lh5.googleusercontent.com/wzQKEsTFkrgNQO9JjhGH5wFvslJr1saLtLaJ_a6Fp_gNENpvt3VG7BmztwngU9hFJaU4CPwGiw1opQtDvTkLrxWRbO_a12Q-pdESWHgtmheIHcPbOL5ZMC4TSiJVe5ty1w=w3517" alt="Triton logo">
 </div>
