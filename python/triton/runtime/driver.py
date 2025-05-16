@@ -1,9 +1,18 @@
+import os
+
 from ..backends import backends
 from ..backends import DriverBase
 
 
 def _create_driver():
+    if os.getenv("TRITON_SPIRV_BACKEND", "0") == "1":
+        if "spirv" not in backends:
+            raise RuntimeError("TRITON_SPIRV_BACKEND is set, but SPIRV backend is unavailable.")
+        return backends["spirv"].driver()
     actives = [x.driver for x in backends.values() if x.driver.is_active()]
+    if len(actives) >= 2 and backends["spirv"].driver.is_active():
+        print("Both SPIRV and GPU backends are available. Using the GPU backend.")
+        actives.remove(backends["spirv"].driver)
     if len(actives) != 1:
         raise RuntimeError(f"{len(actives)} active drivers ({actives}). There should only be one.")
     return actives[0]()

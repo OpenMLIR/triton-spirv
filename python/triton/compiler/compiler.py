@@ -361,6 +361,8 @@ class CompiledKernel:
     launch_exit_hook = None
 
     def __init__(self, src, metadata_group, hash):
+        if os.getenv("TRITON_SPIRV_BACKEND", "0") == "1":
+            return
         from collections import namedtuple
         metadata_path = next((Path(p) for c, p in metadata_group.items() if c.endswith(".json")))
         metadata = json.loads(metadata_path.read_text())
